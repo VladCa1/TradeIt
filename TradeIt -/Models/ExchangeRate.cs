@@ -16,9 +16,9 @@ namespace TradeIt__.Models
 
         public float Rate { get; set; }
 
-        public ExchangeRate(float Rate)
+        public ExchangeRate()
         {
-            this.Rate = Rate;
+            
         }
 
         [ForeignKey("CurrencyId")]

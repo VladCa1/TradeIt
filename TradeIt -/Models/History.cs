@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace TradeIt__.Models
 
         public float Amount { get; set; }
 
-        public string CurrencyId { get; set; }
+        public int CurrencyId { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime Date { get; set; }
@@ -22,7 +23,16 @@ namespace TradeIt__.Models
 
         public string ReceiverId { get; set; }
 
-        public History(float Amount, string CurrencyId, DateTime Date, string SenderId, string ReceiverId)
+        [ForeignKey("ReceiverId")]
+        public ApplicationUser Receiver { get; set; }
+
+        [ForeignKey("SenderId")]
+        public ApplicationUser Sender { get; set; }
+
+        [ForeignKey("CurrencyId")]
+        public Currency Currency { get; set; }
+
+        public History(float Amount, int CurrencyId, DateTime Date, string SenderId, string ReceiverId)
         {
             this.Amount = Amount;
             this.CurrencyId = CurrencyId;

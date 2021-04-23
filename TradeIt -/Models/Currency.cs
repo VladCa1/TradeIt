@@ -14,9 +14,8 @@ namespace TradeIt__.Models
 
         public String Name { get; set; }
 
-        public Currency(String Name)
-        {
-            this.Name = Name;
+        public Currency()
+        {           
         }
 
         public ExchangeRate ExchangeRate { get; set; }

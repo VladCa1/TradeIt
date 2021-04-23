@@ -14,6 +14,24 @@ namespace TradeIt__.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<History>()
+                .HasOne(p => p.Receiver)
+                .WithMany(t => t.ReceiveTransactions)
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<History>()
+                .HasOne(p => p.Sender)
+                .WithMany(t => t.SendTransactions)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
+
         public DbSet<Balance> Balances { get; set; }
         public DbSet<History> TransactionsHistory { get; set; }
         public DbSet<Portofolio> Portoflios { get; set; }

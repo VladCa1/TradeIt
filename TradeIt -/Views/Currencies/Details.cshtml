@@ -1,0 +1,45 @@
+﻿
+
+
+@model TradeIt__.ViewModels.CurrencyRateModel
+
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Currency ID
+        </th>
+        <th>
+            Exchange Rate
+        </th>
+        <th></th>
+    </tr> 
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Currency.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Currency.CurrencyId)
+        </td>
+        <td>
+            @if (@Model.ExchangeRate != null)
+            {
+                @Html.DisplayFor(model => model.ExchangeRate.Rate)
+            }
+            else
+            {
+                <a asp-area="" asp-controller="ExchangeRate" asp-action="Create" asp-route-id="@Model.Currency.CurrencyId">Add Exchange Rate</a>
+            }
+
+        </td>
+        <td>
+            @if (@Model.ExchangeRate != null)
+            {
+                <a asp-area="" asp-controller="ExchangeRate" asp-action="Update" asp-route-id="@Model.Currency.CurrencyId">Edit Exchange Rate</a>
+            }
+        </td>
+    </tr>   
+</table>
