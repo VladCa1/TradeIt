@@ -31,7 +31,7 @@ namespace TradeIt__.Controllers
             return View(holder);
         }
 
-        public IActionResult AddExchangeRate(int rate, int currencyId)
+        public IActionResult AddExchangeRate(float rate, int currencyId)
         {
             exchangeRateService.CreateExchangeRate(currencyService.ReadCurrency(currencyId), rate);
             return RedirectToAction("Details", "Currencies", new { id = currencyId});

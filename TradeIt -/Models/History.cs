@@ -16,6 +16,10 @@ namespace TradeIt__.Models
 
         public int CurrencyId { get; set; }
 
+        public string CurrencyName { get; set; }
+        public string ReceiverUserName { get; set; }
+        public string SenderUserName { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime Date { get; set; }
 
@@ -32,10 +36,9 @@ namespace TradeIt__.Models
         [ForeignKey("CurrencyId")]
         public Currency Currency { get; set; }
 
-        public History(float Amount, int CurrencyId, DateTime Date, string SenderId, string ReceiverId)
+        public History(float Amount, DateTime Date, string SenderId, string ReceiverId)
         {
             this.Amount = Amount;
-            this.CurrencyId = CurrencyId;
             this.Date = Date;
             this.SenderId = SenderId;
             this.ReceiverId = ReceiverId;

@@ -1,3 +1,4 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TradeIt__.Data;
+using TradeIt__.Models;
 using TradeIt__.Services;
 
 namespace TradeIt__
@@ -31,7 +33,7 @@ namespace TradeIt__
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -39,6 +41,7 @@ namespace TradeIt__
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<IExchangeRateService, ExchangeRateService>();
             services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<IFunctionsService, FunctionsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

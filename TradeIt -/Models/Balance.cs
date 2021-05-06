@@ -20,11 +20,6 @@ namespace TradeIt__.Models
 
         public float Amount { get; set; }
 
-        public Balance(float Amount)
-        {
-            this.Amount = Amount;
-        }
-
         [ForeignKey("CurrencyId")]
         public Currency Currency { get; set; }
 

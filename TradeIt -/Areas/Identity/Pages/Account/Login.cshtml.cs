@@ -11,23 +11,30 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using TradeIt__.Models;
 
 namespace TradeIt__.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            this.roleManager = roleManager;
+
+
         }
 
         [BindProperty]
@@ -82,6 +89,12 @@ namespace TradeIt__.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    //var role = new IdentityRole();
+                    //role.Name = "Admin";
+                    //await roleManager.CreateAsync(role);
+                    //var user = await _userManager.FindByNameAsync(Input.Email);
+                    //await _userManager.AddToRoleAsync(user, "Admin");
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -103,6 +116,6 @@ namespace TradeIt__.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-    }
+        }    
+    }   
 }

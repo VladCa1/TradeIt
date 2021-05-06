@@ -7,7 +7,7 @@ using TradeIt__.Models;
 
 namespace TradeIt__.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -17,6 +17,7 @@ namespace TradeIt__.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
 
             modelBuilder.Entity<History>()
                 .HasOne(p => p.Receiver)

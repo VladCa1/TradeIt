@@ -1,0 +1,105 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model TradeIt__.ViewModels.TransferModel
+
+
+
+<div class="container" id="portofolioArea">
+    <div class="card" style="margin-top: 5rem;">
+        <div class="card-header">
+            <h5>
+                <a href="#collapse_account" data-toggle="collapse">
+                    Portofolio
+                </a>
+            </h5>
+        </div>
+        @if(Model.balances != null)
+            {
+
+            }
+
+        <div id="collapse_account" class="collapse">
+            <div class="card-body">
+                <table class="table table-hover" id="portofolio">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.balances != null)
+                        {
+                            var count = 0;
+                            foreach (var item in Model.balances)
+                            {
+                                
+                                <tr>
+                                    <td>@(count+1)</td>
+                                    <td>@Model.balanceNames[count]</td>
+                                    <td>@item.Amount</td>
+                                    <td><a class="btn btn-primary" asp-area="" asp-controller="Functions" asp-action="Sell" asp-route-id="@item.CurrencyId">Sell</a></td>
+                                </tr>
+                                count += 1;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="font-weight-bold">
+                             You don't have anything yet.</tr>
+                        }
+
+                    </tbody>
+                    </table>
+                <button class="btn btn-primary" id="add_funds">Add funds</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <br />
+    <h1>Transfer to another user</h1>
+    <br />
+    <form asp-controller="Functions" asp-action="PostTransfer" method="post">
+        <div class="form-group">
+            <label for="receiverUsername">Receiver's Username</label>
+            <input type="text"
+                   class="form-control"
+                   id="receiverUsername"
+                   aria-describedby="usernameHelp"
+                   placeholder="Enter receiver's username"
+                   name="username" />
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount of </label>
+            <input type="number"
+                   class="form-control"
+                   id="amount"
+                   placeholder="Enter amount"
+                   name="amount" />
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Currency</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="currency">
+                @foreach(var item in Model.balanceNames)
+                {                   
+                    <option>@item</option>
+                }
+            </select>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" required />
+            <label class="form-check-label" for="exampleCheck1">
+                I confirm that I have read, understand and agree to trading policies.
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+</div>

@@ -13,27 +13,37 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TradeIt__.Data;
+using TradeIt__.Models;
+using TradeIt__.Services;
 
 namespace TradeIt__.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext db;
+        private readonly ICurrencyService currencyService;
+
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext db,
+            ICurrencyService currencyService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.db = db;
+            this.currencyService = currencyService;
         }
 
         [BindProperty]
@@ -74,10 +84,25 @@ namespace TradeIt__.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    Portofolio portofolio = new Portofolio();
+                    portofolio.UserId = user.Id;
+                    Balance balance = new Balance();
+                    balance.Amount = 100;                  
+                    var currency = currencyService.ReadCurrency(2);
+                    balance.Currency = currency;
+                    balance.Portofolio = portofolio;
+                    portofolio.Balances = new List<Balance>();
+                    portofolio.Balances.Add(balance);
+                    db.Portoflios.Add(portofolio);                 
+                    db.Balances.Add(balance);
+                    await db.SaveChangesAsync();
+
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

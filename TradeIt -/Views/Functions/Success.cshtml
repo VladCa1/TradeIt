@@ -1,0 +1,14 @@
+﻿@model TradeIt__.ViewModels.SuccessModel 
+
+<div class="container">
+    <br />
+    <h1>Successful Transaction</h1>
+    <br />
+    <div class="alert alert-success" role="alert">
+        Your transaction was successful. Make a
+        <a asp-area="" asp-controller="Functions" asp-action="@Model.action" class="alert-link">New Action</a>
+        or return to <a asp-area="" asp-controller="Home" asp-action="Index" class="alert-link">Home Page</a>.
+        <br />
+        Thanks for trading with us.
+    </div>
+</div>

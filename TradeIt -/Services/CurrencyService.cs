@@ -44,7 +44,7 @@ namespace TradeIt__.Services
             db.SaveChanges();
         }
 
-        public object GetAllCurrencies()
+        public List<Currency> GetAllCurrencies()
         {
             return db.Currencies.ToList();
         }

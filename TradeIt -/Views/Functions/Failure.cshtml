@@ -1,0 +1,24 @@
+﻿@model TradeIt__.ViewModels.FailureModel
+
+<div class="container">
+    <br />
+    <h1>Failed Transaction</h1>
+    <br />
+
+    <div class="alert alert-danger" role="alert">
+        @if (Model.errorType == "username")
+        {
+            <span>Your transaction has been rejected due to entering a non-existent username, please enter a valid one.</span>
+        }
+        else if (Model.errorType == "funds")
+        {
+            <span>
+                Your transaction has been rejected due to insuficient funds.Add money
+                to your account or sell other currencies.
+            </span>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="alert-link">Home</a>
+
+        }
+
+    </div>
+</div>

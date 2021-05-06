@@ -1,4 +1,5 @@
-﻿using TradeIt__.Models;
+﻿using System.Collections.Generic;
+using TradeIt__.Models;
 
 namespace TradeIt__.Services
 {
@@ -8,6 +9,6 @@ namespace TradeIt__.Services
         void DeleteCurrency(int CurrencyId);
         Currency ReadCurrency(int CurrencyId);
         void UpdateCurrency();
-        object GetAllCurrencies();
+        List<Currency> GetAllCurrencies();
     }
 }
